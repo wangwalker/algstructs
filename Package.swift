@@ -10,6 +10,19 @@ let package = Package(
         .library(
             name: "Algstructs",
             targets: ["Algstructs"]),
+        .library(
+            name: "Linear",
+            targets: ["Linear"]),
+        .library(
+            name: "Tree",
+            targets: ["Tree"]),
+        .library(
+            name: "Graph",
+            targets: ["Graph"]),
+        .library(
+            name: "Sort",
+            targets: ["Sort"]),
+
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -24,5 +37,29 @@ let package = Package(
         .testTarget(
             name: "AlgstructsTests",
             dependencies: ["Algstructs"]),
+        .target(
+            name: "Linear",
+            dependencies: []),
+        .testTarget(
+            name: "LinearTests",
+            dependencies: ["Linear"]),
+        .target(
+            name: "Tree",
+            dependencies: []),
+        .testTarget(
+            name: "TreeTests",
+            dependencies: ["Linear"]),
+        .target(
+            name: "Sort",
+            dependencies: []),
+        .testTarget(
+            name: "SortTests",
+            dependencies: ["Linear"]),
+        .target(
+            name: "Graph",
+            dependencies: []),
+        .testTarget(
+            name: "GraphTests",
+            dependencies: ["Linear"]),
     ]
 )
