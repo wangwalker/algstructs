@@ -48,18 +48,18 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "TreeTests",
-            dependencies: ["Linear"]),
+            dependencies: ["Tree"]),
         .target(
             name: "Sort",
             dependencies: []),
         .testTarget(
             name: "SortTests",
-            dependencies: ["Linear"]),
+            dependencies: ["Sort"]),
         .target(
             name: "Graph",
             dependencies: []),
         .testTarget(
             name: "GraphTests",
-            dependencies: ["Linear"]),
+            dependencies: ["Graph"]),
     ]
 )
