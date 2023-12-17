@@ -116,7 +116,7 @@ final class LinearTests: XCTestCase {
     func testSkipListInsertWhenFlatIsFalse() {
         // GIVEN
         /// 1 -------------> 7
-        /// ↓                     ↓
+        /// ↓                   ↓
         /// 1 ----> 4 ----->7
         let decisionMaker = MockedDecisionMaker()
         let level2_7 = SkipListNode(key: 7, data: "2-7", right: nil, down: nil)
@@ -136,8 +136,8 @@ final class LinearTests: XCTestCase {
         skiplist.insert(k: 3, data: "x-3")
 
         // THen become like this
-        /// 1 ----------------------> 7
-        /// ↓                                  ↓
+        /// 1 -----------------------> 7
+        /// ↓                               ↓
         /// 1 ----> 3 -----> 4 ----->7
         XCTAssertFalse(skiplist.decisionMaker.shouldInsert())
         XCTAssertEqual(skiplist.head.down?.right?.key, 3)
@@ -148,7 +148,7 @@ final class LinearTests: XCTestCase {
     func testSkipListInsertWhenFlatIsTrue() {
         // GIVEN
         /// 1 -------------> 7
-        /// ↓                     ↓
+        /// ↓                   ↓
         /// 1 ----> 4 ----->7
         let decisionMaker = MockedDecisionMaker(insertFlag: true)
         let level2_7 = SkipListNode(key: 7, data: "2-7", right: nil, down: nil)
@@ -170,9 +170,9 @@ final class LinearTests: XCTestCase {
 
         // THen become like this
         /// 1 ----> 3
-        /// ↓         ↓
+        /// ↓        ↓
         /// 1 ----> 3 --------------> 7
-        /// ↓         ↓                       ↓
+        /// ↓        ↓                     ↓
         /// 1 ----> 3 -----> 4 ----->7
         XCTAssertTrue(skiplist.decisionMaker.shouldInsert())
         XCTAssertEqual(skiplist.head.right?.key, 3)
