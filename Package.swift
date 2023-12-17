@@ -57,7 +57,7 @@ let package = Package(
             dependencies: ["Sort"]),
         .target(
             name: "Graph",
-            dependencies: []),
+            dependencies: ["Linear"]),
         .testTarget(
             name: "GraphTests",
             dependencies: ["Graph"]),

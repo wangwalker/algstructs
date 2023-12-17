@@ -7,11 +7,13 @@
 
 import Foundation
 
-public struct Queue<Element: CustomStringConvertible> {
+public struct Queue<Element> where Element: CustomStringConvertible {
     private var items: [Element] = []
     public var size: Int {
         return items.count
     }
+
+    public init() { }
 
     public mutating func enqueue(_ item: Element) {
         items.append(item)
