@@ -162,6 +162,30 @@ final class LinearTests: XCTestCase {
         XCTAssertEqual(queue.dequeue(), 2)
         XCTAssertEqual(queue.size, 1)
 
+        // WHEN dequeue and THEN
+        XCTAssertEqual(queue.dequeue(), 3)
+        XCTAssertEqual(queue.size, 0)
+    }
+
+    func testStackedQueueEnqueueAndDequeue() {
+        // GIVEN
+        var queue = StackedQueue<Int>()
+
+        // WHEN
+        queue.enqueue(1)
+        queue.enqueue(2)
+        queue.enqueue(3)
+
+        // THEN
+        XCTAssertEqual(queue.size, 3)
+
+        // WHEN dequeue and THEN
+        XCTAssertEqual(queue.dequeue(), 1)
+        XCTAssertEqual(queue.size, 2)
+
+        // WHEN dequeue and THEN
+        XCTAssertEqual(queue.dequeue(), 2)
+        XCTAssertEqual(queue.size, 1)
 
         // WHEN dequeue and THEN
         XCTAssertEqual(queue.dequeue(), 3)
