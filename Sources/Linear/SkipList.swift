@@ -38,6 +38,16 @@ extension SkipListNode: CustomStringConvertible {
     }
 }
 
+extension SkipListNode: Comparable {
+    public static func < (lhs: SkipListNode<T>, rhs: SkipListNode<T>) -> Bool {
+        lhs.key < rhs.key
+    }
+
+    public static func == (lhs: SkipListNode<T>, rhs: SkipListNode<T>) -> Bool {
+        lhs.key == rhs.key
+    }
+}
+
 public class SkipList<T> where T: Comparable & Equatable {
     public var head: SkipListNode<T>
     public var decisionMaker: DecisionMaker

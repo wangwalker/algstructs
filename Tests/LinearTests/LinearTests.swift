@@ -67,6 +67,73 @@ final class LinearTests: XCTestCase {
         XCTAssertEqual(stack.size, 0)
     }
 
+    func testMinimumStackPushAndPopSortedValues() {
+        // GIVEN
+        var stack = MinimumStack<Int>()
+
+        // WHEN push 1, 2, 3
+        stack.push(1)
+        stack.push(2)
+        stack.push(3)
+
+        // THEN
+        XCTAssertEqual(stack.size, 3)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 3)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 2)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 1)
+        XCTAssertEqual(stack.min(), nil)
+    }
+
+    func testMinimumStackPushAndPopNonSortedValues() {
+        // GIVEN
+        var stack = MinimumStack<Int>()
+
+        // WHEN push 3, 2, 1, 5, 4, 1
+        stack.push(3)
+        stack.push(2)
+        stack.push(1)
+        stack.push(5)
+        stack.push(4)
+        stack.push(1)
+
+        // THEN
+        XCTAssertEqual(stack.size, 6)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 1)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 4)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 5)
+        XCTAssertEqual(stack.min(), 1)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 1)
+        XCTAssertEqual(stack.min(), 2)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 2)
+        XCTAssertEqual(stack.min(), 3)
+
+        // WHEN pop and THEN
+        XCTAssertEqual(stack.pop(), 3)
+        XCTAssertEqual(stack.min(), nil)
+    }
+
     func testQueueCreateAndIsEmpty() {
         // GIVEN
         let queue = Queue<Int>()
