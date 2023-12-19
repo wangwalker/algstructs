@@ -134,6 +134,22 @@ final class LinearTests: XCTestCase {
         XCTAssertEqual(stack.min(), nil)
     }
 
+    func testStackReverse() {
+        // GIVEN
+        var stack = Stack<Int>()
+
+        // WHEN push 1, 2, 3 and reverse
+        stack.push(1)
+        stack.push(2)
+        stack.push(3)
+        stack.reverse()
+
+        // THEN
+        XCTAssertEqual(stack.pop(), 1)
+        XCTAssertEqual(stack.pop(), 2)
+        XCTAssertEqual(stack.pop(), 3)
+    }
+
     func testQueueCreateAndIsEmpty() {
         // GIVEN
         let queue = Queue<Int>()

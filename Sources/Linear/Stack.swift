@@ -35,6 +35,29 @@ extension Stack: CustomStringConvertible {
     }
 }
 
+extension Stack {
+    /// Reverse the stack by just recursively calling push and pop methods
+    /// Return the bottom element and remove from the stack.
+    private mutating func popBottom() -> Element? {
+        if size < 2 {
+            return pop()
+        }
+        guard let top = pop() else {
+            return nil
+        }
+        let result = popBottom()
+        push(top)
+        return result
+    }
+    mutating func reverse() {
+        guard let bottom = popBottom() else {
+            return
+        }
+        reverse()
+        push(bottom)
+    }
+}
+
 // MinimumStack is an enhanced stack you can get the minimum value
 // of the stack at any time after pushing or poping new value.
 public struct MinimumStack<Element> where Element: Comparable & CustomStringConvertible {
