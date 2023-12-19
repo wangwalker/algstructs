@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Linear
 
 public class TreeNode<Key, Value> where Key: Comparable {
     public var key: Key
@@ -33,11 +34,11 @@ public class TreeNode<Key, Value> where Key: Comparable {
 
     public func compare(k: Key) -> ComparisonResult {
         if k < key {
-            return ComparisonResult.orderedAscending
+            return .orderedAscending
         } else if k > key {
-            return ComparisonResult.orderedDescending
+            return .orderedDescending
         } else {
-            return ComparisonResult.orderedSame
+            return .orderedSame
         }
     }
 
@@ -48,62 +49,100 @@ public class TreeNode<Key, Value> where Key: Comparable {
     }
 }
 
-public class BST<Key, Value> where Key: Comparable {
-    public var root: TreeNode<Key,Value>?
+extension TreeNode: Comparable {
+    public static func < (lhs: TreeNode<Key, Value>, rhs: TreeNode<Key, Value>) -> Bool {
+        lhs.key < rhs.key
+    }
 
-    public init(root: TreeNode<Key, Value>) {
+    public static func == (lhs: TreeNode<Key, Value>, rhs: TreeNode<Key, Value>) -> Bool {
+        lhs.key == rhs.key
+    }
+}
+
+extension TreeNode: CustomStringConvertible {
+    public var description: String {
+        "key: \(key), value: \(value)"
+    }
+}
+
+public enum TraverseType {
+    case pre
+    case `in`
+    case post
+}
+
+public class BinaryTree<Key, Value> where Key: Comparable {
+    var root: TreeNode<Key, Value>?
+    var callback: ((TreeNode<Key, Value>) -> Void) = { _ in }
+
+    public init(root: TreeNode<Key, Value>?) {
         self.root = root
     }
 
-    public func size() -> Int {
-        guard let root = root else {
-            return 0
-        }
-        return root.size
-    }
-
-    public func isEmpty() -> Bool {
-        size() == 0
-    }
-
-    public func contains(key: Key) -> Bool {
-        get(node: root, key: key) != nil
-    }
-
-    public func search(key: Key) -> Value? {
-        get(node: root, key: key)
-    }
-
-    public func put(key: Key, value: Value) {
-        root = put(node: root, key: key, value: value)
-    }
-
-    private func get(node: TreeNode<Key, Value>?, key: Key) -> Value? {
-        guard let nodeKey = node?.key else {
-            return nil
-        }
-        if key < nodeKey {
-            return get(node: node?.left, key: key)
-        } else if key > nodeKey {
-            return get(node: node?.right, key: key)
-        } else {
-            return node?.value
+    public func traverse(type: TraverseType,
+                         callback: @escaping (TreeNode<Key, Value>) -> Void) {
+        self.callback = callback
+        switch type {
+        case .pre: preTraverse(node: root)
+        case .in: inTraverse(node: root)
+        case .post: postTraverse(node: root)
         }
     }
 
-    private func put(node: TreeNode<Key, Value>?, key: Key, value: Value) -> TreeNode<Key, Value> {
-        guard let node = node else {
-            return TreeNode(key: key, value: value, size: 1)
+    private func preTraverse(node: TreeNode<Key, Value>?) {
+        guard let root = node else { return }
+        var stack = Stack<TreeNode<Key, Value>>()
+        stack.push(root)
+        while let node = stack.pop() {
+            callback(node)
+            if let right = node.right {
+                stack.push(right)
+            }
+            if let left = node.left {
+                stack.push(left)
+            }
         }
-        let cmp = node.compare(k: key)
-        switch cmp {
-        case ComparisonResult.orderedSame:
-            node.value = value
-        case ComparisonResult.orderedAscending:
-            node.left = put(node: node.left, key: key, value: value)
-        case ComparisonResult.orderedDescending:
-            node.right = put(node: node.right, key: key, value: value)
+    }
+
+    private func inTraverse(node: TreeNode<Key, Value>?) {
+        var node = node
+        var stack = Stack<TreeNode<Key, Value>>()
+        while !stack.isEmpty() || node != nil {
+            if node != nil {
+                if let node = node {
+                    stack.push(node)
+                }
+                node = node?.left
+            } else {
+                node = stack.pop()
+                if let node = node {
+                    callback(node)
+                }
+                node = node?.right
+            }
         }
-        return node
+
+    }
+
+    private func postTraverse(node: TreeNode<Key, Value>?) {
+        guard let node = node else { return }
+        var s1 = Stack<TreeNode<Key, Value>>()
+        var s2 = Stack<TreeNode<Key, Value>>()
+        s1.push(node)
+        while !s1.isEmpty() {
+            if let head = s1.pop() {
+                s2.push(head)
+                if let left = head.left {
+                    s1.push(left)
+                }
+                if let right = head.right {
+                    s1.push(right)
+                }
+            }
+        }
+        while let node = s2.pop() {
+            callback(node)
+        }
     }
 }
+

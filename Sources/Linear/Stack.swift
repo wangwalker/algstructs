@@ -18,6 +18,8 @@ public struct Stack<Element> where Element: Comparable & CustomStringConvertible
         items.count
     }
 
+    public init() {}
+
     public func isEmpty() -> Bool {
         size == 0
     }

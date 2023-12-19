@@ -45,7 +45,7 @@ let package = Package(
             dependencies: ["Linear"]),
         .target(
             name: "Tree",
-            dependencies: []),
+            dependencies: ["Linear"]),
         .testTarget(
             name: "TreeTests",
             dependencies: ["Tree"]),
